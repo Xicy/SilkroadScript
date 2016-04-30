@@ -190,8 +190,10 @@
     <Compile Include="Script Interfaces\IScript.cs" />
     <Compile Include="Structs\Agent\Spawns\Monster.cs" />
     <Compile Include="Structs\Agent\Spawns\NPC.cs" />
+    <Compile Include="Structs\Agent\Spawns\Pet.cs" />
     <Compile Include="Structs\Agent\Spawns\Player.cs" />
     <Compile Include="Structs\Agent\Spawns\Item.cs" />
+    <Compile Include="Structs\Agent\Spawns\Teleport.cs" />
     <Compile Include="Structs\Data\Character.cs" />
     <Compile Include="Structs\Login\CharacterListing.cs" />
     <Compile Include="Structs\Data\Common.cs" />

@@ -9,6 +9,7 @@ namespace Shared
     public partial class Client
     {
         public static SynchronizedList<Player> Players = new List<Player>();
+        public static SynchronizedList<Pet> Pets = new List<Pet>();
         public static SynchronizedList<NPC> NPCs = new List<NPC>();
         public static SynchronizedList<Item> Items = new List<Item>();
         public static SynchronizedList<Monster> Monsters = new List<Monster>();
@@ -142,7 +143,7 @@ namespace Shared
 
                         else if (character.CodeName.StartsWith("COS"))
                         {
-                            Objects.RefSpawns.objPet CurrentPet = new Objects.RefSpawns.objPet();
+                           var CurrentPet = new Pet();
 
                             uint UniqueId = p.ReadUInt();
                             byte xSec = p.ReadByte();
@@ -201,23 +202,13 @@ namespace Shared
                                 CurrentPet.Name = "No Name";
                             CurrentPet.OwnerName = p.ReadAscii();
 
-                            CurrentPet.AssocPet = mob;
+                            CurrentPet.AssocPet = character;
                             CurrentPet.XOffset = xCoordinate;
                             CurrentPet.YOffset = yCoordinate;
                             CurrentPet.ZOffset = zCoordinate;
                             CurrentPet.XSector = xSec;
                             CurrentPet.YSector = ySec;
-                            item_Lv.Text = "Pet";
-                            item_Lv.SubItems.Add(CurrentPet.Name);
-                            item_Lv.SubItems.Add(CurrentPet.OwnerName + "'s Pet");
-                            item_Lv.SubItems.Add(mob.Level.ToString());
-
-                            m_SpawnedPets.Add(CurrentPet);
-
-                            item_Lv.Tag = UniqueId;
-
-                            if (Globals.Forms.MainForm.checkMap_EnvironmentShowPets.Checked)
-                                Globals.Forms.MainForm.lvFloor.Items.Add(item_Lv);
+                           Pets.Add(CurrentPet);
                         }
                         #endregion
                         #region NPC
@@ -374,6 +365,7 @@ namespace Shared
                         }
 
                         #endregion
+
 
                         //Structures / Teleports
                     }
