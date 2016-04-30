@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 using Shared;
 using Shared.Core;
-using Shared.Structs;
 using Shared.Structs.Data;
 
 namespace SilkroadScript

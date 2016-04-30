@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Windows.Controls;
 using LiteDB;
 using Shared;
-using Shared.Core;
 
 public partial class AutoLogin : Page, IScript, IClient, IGateway, IAgent, IContent, IDatabase<AutoLogin.AutoLoginData>
 {

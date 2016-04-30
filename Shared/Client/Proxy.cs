@@ -304,6 +304,12 @@ namespace Shared
                 case OpCodes.AgentServer.GroupSpawnEnd:
                     DecodeGroupSpawnEnd(packet);
                     break;
+                case OpCodes.AgentServer.SingleSpawn:
+                    DecodeSingleSpawn(packet);
+                    break;
+                case OpCodes.AgentServer.SingleDespawn:
+                    DecodeSingleDespawn(packet);
+                    break;
             }
             if (InvokeMethodWithSkip(AgentPacketReceived, packet)) return; //Skip
             SendFromServer(packet);

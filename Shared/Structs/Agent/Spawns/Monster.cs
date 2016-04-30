@@ -4,7 +4,7 @@
     {
 
         public Data.Character AssocMonster { get; set; }
-        public int Type { get; set; }
+        public Types.Monster Type { get; set; }
         public bool IsAlive { get; set; }
         public uint ObjectId { get; set; }
         public string Name => AssocMonster.ObjName;

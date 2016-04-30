@@ -8,14 +8,14 @@ namespace Shared
 {
     public partial class Client
     {
-        public static SynchronizedList<Player> Players = new List<Player>();
-        public static SynchronizedList<Pet> Pets = new List<Pet>();
-        public static SynchronizedList<NPC> NPCs = new List<NPC>();
-        public static SynchronizedList<Item> Items = new List<Item>();
-        public static SynchronizedList<Monster> Monsters = new List<Monster>();
+        public SynchronizedList<Player> Players = new List<Player>();
+        public SynchronizedList<Pet> Pets = new List<Pet>();
+        public SynchronizedList<NPC> NPCs = new List<NPC>();
+        public SynchronizedList<Item> Items = new List<Item>();
+        public SynchronizedList<Monster> Monsters = new List<Monster>();
 
 
-        public static void DecodeSingleSpawn(Packet p)
+        public void DecodeSingleSpawn(Packet p)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Shared
                     if (item != null) //YES!
                     {
 
-                        var CurrentItem = new Structs.Agent.Spawns.Item();
+                        var CurrentItem = new Item();
                         CurrentItem.AssocItem = item;
                         if (item.CodeName.StartsWith("ITEM_ETC_GOLD"))
                         {
@@ -69,11 +69,11 @@ namespace Shared
                 {
                     if (character != null)
                     {
-                        #region Monster //CHECKED!
+                        #region Monster
 
                         if (character.CodeName.StartsWith("MOB"))
                         {
-                            var CurrentMonster = new Structs.Agent.Spawns.Monster();
+                            var CurrentMonster = new Monster();
 
                             uint ObjectId = p.ReadUInt();
                             byte xSec = p.ReadByte();
@@ -113,23 +113,24 @@ namespace Shared
                             if (p.ReadByte() == 2) //death flag
                                 CurrentMonster.IsAlive = false;
 
-                            //p.ReadByte();
-                            //byte move = p.ReadByte(); //Move flag
-                            //byte zerk = p.ReadByte(); //Berzerk flag
-                            //float walkS = p.ReadFloat(); //walk speed
-                            //float runS = p.ReadFloat(); //run speed;
-                            //float zerkS = p.ReadFloat(); //zerk speed
-                            //byte buffCount = p.ReadByte();
+                            p.ReadByte();
+                            byte move = p.ReadByte(); //Move flag
+                            byte zerk = p.ReadByte(); //Berzerk flag
+                            float walkS = p.ReadFloat(); //walk speed
+                            float runS = p.ReadFloat(); //run speed;
+                            float zerkS = p.ReadFloat(); //zerk speed
+                            byte buffCount = p.ReadByte();
 
-                            //for (int i = 0; i < buffCount; i++)
-                            //{
-                            //    p.ReadUInt(); //Buff Id
-                            //    p.ReadUInt(); //Duration (in ms)
-                            //}
-                            //p.ReadByte(); // Name type
-                            //byte Type = p.ReadByte(); // Monster type (general, champ...)
+                            for (int i = 0; i < buffCount; i++)
+                            {
+                                p.ReadUInt(); //Buff Id
+                                p.ReadUInt(); //Duration (in ms)
+                            }
+                            p.ReadByte(); // Name type
+                            byte Type = p.ReadByte(); // Monster type (general, champ...)
 
                             CurrentMonster.ObjectId = ObjectId;
+                            CurrentMonster.Type = (Types.Monster)Type;
                             CurrentMonster.AssocMonster = character;
                             CurrentMonster.XSector = xSec;
                             CurrentMonster.YSector = ySec;
@@ -365,8 +366,6 @@ namespace Shared
                         }
 
                         #endregion
-
-
                         //Structures / Teleports
                     }
                 }
@@ -377,18 +376,37 @@ namespace Shared
             }
 
         }
+        public void DecodeSingleDespawn(Packet p)
+        {
+            uint uniqueId = p.ReadUInt();
+            try
+            {
+                var check = Items.Remove(Items.FirstOrDefault(i => i.ObjectId == uniqueId));
+                if(check) return;
+                check = Players.Remove(Players.FirstOrDefault(i => i.ObjectId == uniqueId));
+                if (check) return;
+                check = Pets.Remove(Pets.FirstOrDefault(i => i.ObjectId == uniqueId));
+                if (check) return;
+                check = Monsters.Remove(Monsters.FirstOrDefault(i => i.ObjectId == uniqueId));
+                if (check) return;
+            }
+            catch
+            {
+                //
+            }
+        }
 
-        private static ushort _groupSpawnAmount;
-        private static byte _groupSpawnTypeB;
-        private static void DecodeGroupSpawnStart(Packet p)
+        private ushort _groupSpawnAmount;
+        private byte _groupSpawnTypeB;
+        private void DecodeGroupSpawnStart(Packet p)
         {
             _groupSpawnTypeB = p.ReadByte();
             _groupSpawnAmount = p.ReadUShort();
         }
-        private static void DecodeGroupSpawnEnd(Packet p)
+        private void DecodeGroupSpawnEnd(Packet p)
         {
         }
-        private static void DecodeGroupSpawn(Packet p)
+        private void DecodeGroupSpawn(Packet p)
         {
             for (int i = 0; i < _groupSpawnAmount; i++)
             {
@@ -398,7 +416,7 @@ namespace Shared
                         DecodeSingleSpawn(p);
                         break;
                     case 2:
-                        //DecodeSingleDespawn(p);
+                        DecodeSingleDespawn(p);
                         break;
                 }
             }

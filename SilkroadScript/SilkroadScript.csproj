@@ -54,7 +54,12 @@
     <Compile Include="Embeded\Scripts\AutoLogin.xaml.cs">
       <DependentUpon>AutoLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ThreadSafe.cs" />
     <Page Include="Embeded\Scripts\AutoLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Embeded\Scripts\SpawnTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -65,6 +70,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Embeded\Scripts\SpawnTest.xaml.cs">
+      <DependentUpon>SpawnTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

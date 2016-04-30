@@ -179,6 +179,7 @@
     <Compile Include="Core\Security\Security.cs" />
     <Compile Include="Core\Security\TransferBuffer.cs" />
     <Compile Include="Core\Utility.cs" />
+    <Compile Include="Types.cs" />
     <Compile Include="OpCodes.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
