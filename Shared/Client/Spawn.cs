@@ -9,6 +9,7 @@ namespace Shared
     public partial class Client
     {
         public static SynchronizedList<Player> Players = new List<Player>();
+        public static SynchronizedList<NPC> NPCs = new List<NPC>();
         public static SynchronizedList<Item> Items = new List<Item>();
         public static SynchronizedList<Monster> Monsters = new List<Monster>();
 
@@ -137,7 +138,7 @@ namespace Shared
                             Monsters.Add(CurrentMonster);
                         }
                         #endregion
-                        /*#region Pet
+                        #region Pet
 
                         else if (character.CodeName.StartsWith("COS"))
                         {
@@ -223,7 +224,7 @@ namespace Shared
 
                         else if (character.CodeName.StartsWith("NPC"))
                         {
-                            Objects.RefSpawns.objNPC CurrentNPC = new Objects.RefSpawns.objNPC();
+                            var CurrentNPC = new NPC();
                             uint ObjectId = p.ReadUInt();
                             byte xSec = p.ReadByte();
                             byte ySec = p.ReadByte();
@@ -231,9 +232,7 @@ namespace Shared
                             float zCoordinate = p.ReadFloat();
                             float yCoordinate = p.ReadFloat();
 
-                            CurrentNPC.Name = vrBot.Media.Texthelper.GetText(model,
-                                vrBot.Media.Texthelper.RequestType.Character);
-                            CurrentNPC.AssocNPC = mob;
+                            CurrentNPC.AssocNPC = character;
                             CurrentNPC.ObjectId = ObjectId;
                             CurrentNPC.XOffset = xCoordinate;
                             CurrentNPC.YOffset = yCoordinate;
@@ -241,16 +240,10 @@ namespace Shared
                             CurrentNPC.XSector = xSec;
                             CurrentNPC.YSector = ySec;
 
-                            item_Lv.Text = "NPC";
-                            item_Lv.SubItems.Add(CurrentNPC.Name);
-                            item_Lv.SubItems.Add("Non player");
-                            item_Lv.SubItems.Add(mob.Level.ToString());
-                            m_SpawnedNPCs.Add(CurrentNPC);
-
-                            Globals.Forms.MainForm.lvFloor.Items.Add(item_Lv);
+                            NPCs.Add(CurrentNPC);
 
                         }
-                        #endregion*/
+                        #endregion
                         #region Player
 
                         else if (character.CodeName.StartsWith("CHAR"))
